@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas Notes Studio - Studio Engine</title>
+    <title>Canvas Notes Studio</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -22,7 +22,7 @@
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg-main);
             color: var(--text-primary);
-            max-width: 680px; /* Original Compact Layout Width Kept */
+            max-width: 680px;
             margin: 40px auto;
             padding: 20px;
         }
@@ -80,7 +80,6 @@
             border-color: var(--accent);
         }
 
-        /* FILE ARRANGEMENT LIST WORKSPACE */
         .file-workspace {
             background: rgba(4, 7, 13, 0.5);
             border: 1px solid #1e293b;
@@ -121,7 +120,6 @@
             border-color: var(--accent);
         }
 
-        /* CARDS REARRANGE VIEW GRID */
         .grid-workspace-wrapper {
             background: rgba(4, 7, 13, 0.6);
             border: 1px solid #1e293b;
@@ -231,7 +229,6 @@
             text-align: center;
         }
 
-        /* LAYOUT GRID DROPDOWNS */
         .layout-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -289,16 +286,9 @@
             line-height: 1.6;
         }
 
-        .pages-drag-grid::-webkit-scrollbar {
-            width: 6px;
-        }
-        .pages-drag-grid::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .pages-drag-grid::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 10px;
-        }
+        .pages-drag-grid::-webkit-scrollbar { width: 6px; }
+        .pages-drag-grid::-webkit-scrollbar-track { background: transparent; }
+        .pages-drag-grid::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
 
         .studio-footer-credit {
             margin-top: 35px;
@@ -321,17 +311,17 @@
 
 <div class="studio-card">
     <h2>Canvas Notes Studio</h2>
-    <p class="tagline">Anti-Aliasing Preservation Mapping Engine & Sequential Multi-File Pipeline</p>
+    <p class="tagline">Custom Grid Generator & Multi-File Sequence Matrix</p>
     
     <div class="control-group">
-        <label for="pdf-files">Select Master PDF Files (Supports 10+ Files Easily)</label>
+        <label for="pdf-files">Select Master PDF Files</label>
         <input type="file" id="pdf-files" accept="application/pdf" multiple>
     </div>
 
     <div id="file-workspace-block" class="file-workspace" style="display: none;">
-        <span class="workspace-title">Step 1: Drag & Arrange Files to Set Sequence Ranking Matrix:</span>
+        <span class="workspace-title">Step 1: Drag & Arrange Files to Set Sequence Matrix:</span>
         <div id="file-order-list-container" class="file-order-list"></div>
-        <button id="generate-cards-btn" class="utility-btn" style="margin-top: 12px; background: var(--accent); color: white; border: none; width: 100%; padding: 10px;" type="button">Generate Drag & Drop Cards From This File Order</button>
+        <button id="generate-cards-btn" class="utility-btn" style="margin-top: 12px; background: var(--accent); color: white; border: none; width: 100%; padding: 10px;" type="button">Generate Drag & Drop Cards</button>
     </div>
 
     <div id="grid-workspace-block" class="grid-workspace-wrapper" style="display: none;">
@@ -347,40 +337,55 @@
 
     <div class="layout-grid">
         <div class="control-group">
+            <label for="orientation-mode">Page Orientation</label>
+            <select id="orientation-mode">
+                <option value="p" selected>Portrait (Vertical A4)</option>
+                <option value="l">Landscape (Horizontal A4)</option>
+            </select>
+        </div>
+
+        <div class="control-group">
             <label for="columns-count">Columns Allocation</label>
             <select id="columns-count">
                 <option value="1">1 Column</option>
-                <option value="2" selected>2 Columns</option>
+                <option value="2" selected>2 Columns (Recommended)</option>
                 <option value="3">3 Columns</option>
             </select>
         </div>
+    </div>
+
+    <div class="layout-grid">
         <div class="control-group">
             <label for="rows-count">Rows Grid Allocation</label>
             <select id="rows-count">
                 <option value="1">1 Row</option>
-                <option value="2" selected>2 Rows (Standard 4-Grid)</option>
-                <option value="3">3 Rows (6-Grid)</option>
+                <option value="2" selected>2 Rows (Best Clarity)</option>
+                <option value="3">3 Rows</option>
                 <option value="4">4 Rows</option>
                 <option value="5">5 Rows</option>
-                <option value="6">6 Rows</option>
-                <option value="7">7 Rows</option>
-                <option value="8">8 Rows</option>
-                <option value="9">9 Rows</option>
-                <option value="10">10 Rows (Maximum Density)</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="output-mode">Output Visual Mode</label>
+            <select id="output-mode">
+                <option value="color" selected>Vibrant Original Color</option>
+                <option value="bw">Grayscale Mode</option>
             </select>
         </div>
     </div>
 
     <div class="control-group">
-        <label for="output-mode">Output Visual Mode</label>
-        <select id="output-mode">
-            <option value="color" selected>Vibrant Original Color (Preserved Mode)</option>
-            <option value="bw">High-Contrast Black & White (Grayscale Printing Opt)</option>
+        <label for="invert-mode">Inversion Strategy</label>
+        <select id="invert-mode">
+            <option value="auto" selected>Auto Invert (Dark Slides to White)</option>
+            <option value="always">Always Invert</option>
+            <option value="never">Never Invert (Keep Original Colors)</option>
         </select>
     </div>
     
     <button id="engine-start-btn" class="main-exec-btn" disabled>Execute High-Quality Conversion</button>
-    <div id="status-display">System ready. Upload slide documents to begin process sequence...</div>
+    <div id="status-display">System ready. Upload slide documents to begin...</div>
 
     <div class="studio-footer-credit">
         Engine Engineered & Crafted By <span>Harsh Ranjan</span>
@@ -393,9 +398,11 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
     const fileInput = document.getElementById('pdf-files');
+    const orientationSelect = document.getElementById('orientation-mode');
     const colsSelect = document.getElementById('columns-count');
     const rowsSelect = document.getElementById('rows-count');
     const modeSelect = document.getElementById('output-mode');
+    const invertSelect = document.getElementById('invert-mode');
     const processBtn = document.getElementById('engine-start-btn');
     const statusBox = document.getElementById('status-display');
     const canvas = document.getElementById('render-pipeline-canvas');
@@ -413,7 +420,6 @@
     let MemoryFileArrayObjects = [];
     let DynamicCardsArrayTrack = [];
 
-    // FILE INITIALIZATION LAYER
     fileInput.addEventListener('change', (e) => {
         const files = e.target.files;
         if (files.length === 0) return;
@@ -444,36 +450,26 @@
 
         initFileDragAndDropEngine();
         fileWorkspaceBlock.style.display = 'block';
-        statusBox.innerText = "Files mapped. Arrange execution order above, then click 'Generate Drag & Drop Cards'.";
+        statusBox.innerText = "Files mapped. Arrange sequence above then click 'Generate Drag & Drop Cards'.";
     });
 
-    // ASYNCHRONOUS FILE LOADER WITH INDEX RESOLUTION (PREVENTS RACE CONDITION SHUFFLING)
     generateCardsBtn.addEventListener('click', async () => {
-        statusBox.innerText = "Initializing race-condition-free asynchronous synchronization matrix...";
+        statusBox.innerText = "Processing PDF documents in parallel...";
         pagesContainerGrid.innerHTML = '';
         DynamicCardsArrayTrack = [];
+        generateCardsBtn.disabled = true;
 
         const currentFileDomSequence = [...fileOrderListContainer.querySelectorAll('.file-sort-item')];
         
-        const documentLoadingPromises = currentFileDomSequence.map((row, indexRank) => {
-            const uid = row.getAttribute('data-file-uid');
-            const targetFileObj = MemoryFileArrayObjects.find(f => f.uid === uid);
-            
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = async (e) => {
-                    try {
-                        const buffer = e.target.result;
-                        const docRef = await pdfjsLib.getDocument({ data: buffer }).promise;
-                        resolve({ fileIndex: indexRank, docRef: docRef });
-                    } catch (err) { reject(err); }
-                };
-                reader.onerror = () => reject(reader.error);
-                reader.readAsArrayBuffer(targetFileObj.fileDataRef);
-            });
-        });
-
         try {
+            const documentLoadingPromises = currentFileDomSequence.map(async (row, indexRank) => {
+                const uid = row.getAttribute('data-file-uid');
+                const targetFileObj = MemoryFileArrayObjects.find(f => f.uid === uid);
+                const buffer = await targetFileObj.fileDataRef.arrayBuffer();
+                const docRef = await pdfjsLib.getDocument({ data: buffer }).promise;
+                return { fileIndex: indexRank, docRef: docRef };
+            });
+
             const loadedChunks = await Promise.all(documentLoadingPromises);
             loadedChunks.sort((alpha, beta) => alpha.fileIndex - beta.fileIndex);
 
@@ -481,10 +477,15 @@
 
             for (const chunk of loadedChunks) {
                 const docRef = chunk.docRef;
+                const pagePromises = [];
 
                 for (let pNum = 1; pNum <= docRef.numPages; pNum++) {
-                    const pageInstance = await docRef.getPage(pNum);
+                    pagePromises.push(docRef.getPage(pNum));
+                }
 
+                const pageInstances = await Promise.all(pagePromises);
+
+                for (const pageInstance of pageInstances) {
                     const cardMeta = {
                         internalCardId: 'card_' + runningGlobalCardId + '_' + Date.now(),
                         pageRef: pageInstance,
@@ -498,13 +499,11 @@
                     pageCard.setAttribute('data-internal-card-id', cardMeta.internalCardId);
 
                     const thumbCanvas = document.createElement('canvas');
-                    const thumbCtx = thumbCanvas.getContext('2d');
-                    const viewport = pageInstance.getViewport({ scale: 0.22 });
+                    const thumbCtx = thumbCanvas.getContext('2d', { alpha: false });
+                    
+                    const viewport = pageInstance.getViewport({ scale: 0.15 });
                     thumbCanvas.width = viewport.width;
                     thumbCanvas.height = viewport.height;
-                    
-                    await pageInstance.render({ canvasContext: thumbCtx, viewport: viewport }).promise;
-                    pageCard.appendChild(thumbCanvas);
 
                     const rowControls = document.createElement('div');
                     rowControls.className = 'card-controls-row';
@@ -512,8 +511,12 @@
                         <input type="checkbox" checked class="card-checkbox">
                         <span class="card-index-badge">${runningGlobalCardId}</span>
                     `;
+
+                    pageCard.appendChild(thumbCanvas);
                     pageCard.appendChild(rowControls);
                     pagesContainerGrid.appendChild(pageCard);
+
+                    pageInstance.render({ canvasContext: thumbCtx, viewport: viewport });
 
                     const cb = rowControls.querySelector('.card-checkbox');
                     cb.addEventListener('change', (evt) => {
@@ -537,15 +540,16 @@
             updateSelectionCounter();
             gridWorkspaceBlock.style.display = 'block';
             processBtn.disabled = false;
-            statusBox.innerText = "Workspace securely structured! Sort cards or filter pages safely.";
+            statusBox.innerText = "Workspace loaded! Drag cards to reorder as needed.";
 
         } catch (error) {
             console.error(error);
-            statusBox.innerText = "Asynchronous matrix initialization failed. Please reset input files.";
+            statusBox.innerText = "Error loading PDF files.";
+        } finally {
+            generateCardsBtn.disabled = false;
         }
     });
 
-    // FILE ROW DRAG SYSTEM
     function initFileDragAndDropEngine() {
         fileOrderListContainer.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -566,7 +570,6 @@
         });
     }
 
-    // VISUAL INDEPENDENT GRID CARDS SORT ARCHITECTURE
     function initCardsDragAndDropEngine() {
         pagesContainerGrid.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -574,12 +577,10 @@
             if (!draggingCard) return;
 
             const targetRemainingCards = [...pagesContainerGrid.querySelectorAll('.page-preview-card:not(.dragging)')];
-            
             const nextSiblingCard = targetRemainingCards.find(card => {
                 const box = card.getBoundingClientRect();
                 const offsetX = e.clientX - box.left - box.width / 2;
-                const offsetY = e.clientY - box.top - box.height / 2;
-                return (offsetX < 0 && offsetY < box.height / 2);
+                return (offsetX < 0 && (e.clientY - box.top - box.height / 2) < 0);
             });
 
             if (nextSiblingCard == null) {
@@ -590,7 +591,6 @@
         });
     }
 
-    // GLOBAL INTERACTION SELECTORS
     selectAllBtn.addEventListener('click', () => toggleAllGlobalPageCardsState(true));
     deselectAllBtn.addEventListener('click', () => toggleAllGlobalPageCardsState(false));
 
@@ -615,7 +615,6 @@
         selectionCounter.innerText = `${selected} of ${total} pages selected`;
     }
 
-    // COMPILER ENGINE RE-ORDER COMPILATION PIPELINE
     processBtn.addEventListener('click', async () => {
         const startTime = performance.now();
         const visualDomCardsOrder = [...pagesContainerGrid.querySelectorAll('.page-preview-card')];
@@ -630,61 +629,81 @@
         });
 
         if (finalExecutionPipeline.length === 0) {
-            statusBox.innerText = "Process Aborted: Build queue empty.";
+            statusBox.innerText = "Process Aborted: No pages selected.";
             return;
         }
 
         processBtn.disabled = true;
+        const chosenOrientation = orientationSelect.value;
         const chosenMode = modeSelect.value;
+        const chosenInvert = invertSelect.value;
 
         try {
             const { jsPDF } = window.jspdf;
-            const targetPdf = new jsPDF('p', 'mm', 'a4');
-            const a4W = targetPdf.internal.pageSize.getWidth();
-            const a4H = targetPdf.internal.pageSize.getHeight();
+            const targetPdf = new jsPDF(chosenOrientation, 'mm', 'a4');
+            const pageW = targetPdf.internal.pageSize.getWidth();
+            const pageH = targetPdf.internal.pageSize.getHeight();
 
-            const cols = parseInt(colsSelect.value);
-            const rows = parseInt(rowsSelect.value);
+            const cols = parseInt(colsSelect.value, 10);
+            const rows = parseInt(rowsSelect.value, 10);
             const slidesPerPage = cols * rows;
 
             const marginX = 8, marginY = 8, gap = 3;
-            const slotW = (a4W - (2 * marginX) - ((cols - 1) * gap)) / cols;
-            const slotH = (a4H - (2 * marginY) - ((rows - 1) * gap)) / rows;
+            const slotW = (pageW - (2 * marginX) - ((cols - 1) * gap)) / cols;
+            const slotH = (pageH - (2 * marginY) - ((rows - 1) * gap)) / rows;
 
             let currentSlotIndex = 0;
             let totalProcessed = 0;
 
             for (let i = 0; i < finalExecutionPipeline.length; i++) {
-                statusBox.innerText = `Rendering element node ${i + 1}/${finalExecutionPipeline.length}...`;
+                statusBox.innerText = `Processing page ${i + 1}/${finalExecutionPipeline.length}...`;
                 const node = finalExecutionPipeline[i];
-                const viewport = node.pageRef.getViewport({ scale: 2.5 }); 
+                const viewport = node.pageRef.getViewport({ scale: 2.0 }); 
                 
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
                 await node.pageRef.render({ canvasContext: ctx, viewport: viewport }).promise;
 
-                // Color Inversion & Grayscale Matrix Engine Mapping Rules
                 const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const data = imgData.data;
-                
-                for (let j = 0; j < data.length; j += 4) {
-                    let r = 255 - data[j], g = 255 - data[j+1], b = 255 - data[j+2];
-                    let bri = 0.299 * r + 0.587 * g + 0.114 * b;
-                    let spread = Math.max(r, g, b) - Math.min(r, g, b);
 
-                    if (bri > 155 && spread < 40) {
-                        data[j] = data[j+1] = data[j+2] = 255; // White background conversion
-                    } else if (spread < 40) {
-                        let dark = Math.floor(12 * (bri / 155));
-                        data[j] = data[j+1] = data[j+2] = dark;
+                let shouldInvert = false;
+                if (chosenInvert === 'always' || chosenInvert === 'auto') {
+                    if (chosenInvert === 'always') {
+                        shouldInvert = true;
                     } else {
-                        // Check if Black & White (Grayscale) option is toggled active
-                        if (chosenMode === 'bw') {
-                            let grayscaleValue = Math.floor(0.299 * r + 0.587 * g + 0.114 * b);
-                            data[j] = data[j+1] = data[j+2] = grayscaleValue;
-                        } else {
-                            data[j] = r; data[j+1] = g; data[j+2] = b;
+                        let totalLuminance = 0;
+                        let samples = 0;
+                        for (let px = 0; px < data.length; px += 80) {
+                            totalLuminance += (0.299 * data[px] + 0.587 * data[px + 1] + 0.114 * data[px + 2]);
+                            samples++;
                         }
+                        shouldInvert = (totalLuminance / samples) < 128;
+                    }
+                }
+
+                // STANDARD CLEAN INVERSION
+                for (let j = 0; j < data.length; j += 4) {
+                    let r = data[j];
+                    let g = data[j + 1];
+                    let b = data[j + 2];
+
+                    if (shouldInvert) {
+                        r = 255 - r;
+                        g = 255 - g;
+                        b = 255 - b;
+                    }
+
+                    if (chosenMode === 'bw') {
+                        let gray = Math.floor(0.299 * r + 0.587 * g + 0.114 * b);
+                        data[j] = data[j + 1] = data[j + 2] = gray;
+                    } else {
+                        data[j] = r;
+                        data[j + 1] = g;
+                        data[j + 2] = b;
                     }
                 }
                 ctx.putImageData(imgData, 0, 0);
@@ -708,16 +727,15 @@
                 totalProcessed++;
             }
 
-            statusBox.innerText = "Assembling master printable data matrix...";
+            statusBox.innerText = "Compiling PDF document...";
             targetPdf.save('canvas-studio-notes-output.pdf');
             
-            const endTime = performance.now();
-            const durationSeconds = ((endTime - startTime) / 1000).toFixed(2);
-            statusBox.innerText = `Notes Package compiled successfully! [Compiled in ${durationSeconds}s]`;
+            const durationSeconds = ((performance.now() - startTime) / 1000).toFixed(2);
+            statusBox.innerText = `Compiled successfully in ${durationSeconds}s!`;
             
         } catch (err) {
             console.error(err);
-            statusBox.innerText = "Error caught inside document generation streams.";
+            statusBox.innerText = "Error encountered during document compilation.";
         } finally {
             processBtn.disabled = false;
         }
